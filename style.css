@@ -14,13 +14,21 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+html,
+body {
+    height: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: var(--font-family);
     background-color: var(--bg-color);
     color: var(--text-primary);
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -32,6 +40,8 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-height: 0;
     max-width: 800px;
     margin: 0 auto;
     width: 100%;
@@ -69,6 +79,9 @@ main {
     gap: 16px;
     min-height: 0;
     /* Important for flex child scrolling */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .input-area {
