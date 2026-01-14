@@ -1,6 +1,6 @@
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open('read-aloud-v3').then((cache) => {
+        caches.open('read-aloud-v4').then((cache) => {
             return cache.addAll([
                 './',
                 './index.html',
@@ -23,7 +23,7 @@ self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((keys) => {
             return Promise.all(
-                keys.map((key) => (key === 'read-aloud-v3' ? null : caches.delete(key)))
+                keys.map((key) => (key === 'read-aloud-v4' ? null : caches.delete(key)))
             );
         })
     );
@@ -40,7 +40,7 @@ self.addEventListener('fetch', (event) => {
                     return networkResponse;
                 }
                 const responseClone = networkResponse.clone();
-                caches.open('read-aloud-v3').then((cache) => cache.put(event.request, responseClone));
+                    caches.open('read-aloud-v4').then((cache) => cache.put(event.request, responseClone));
                 return networkResponse;
             })
             .catch(() => {
