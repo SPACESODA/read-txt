@@ -1,6 +1,6 @@
 {
-    "name": "Read It",
-    "short_name": "Read It",
+    "name": "Read TXT",
+    "short_name": "Read TXT",
     "description": "A lightweight text-to-speech reader with auto language detection and chunked playback.",
     "start_url": ".",
     "scope": ".",

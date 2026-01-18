@@ -1,6 +1,6 @@
-# Read It
+# Read TXT
 
-**Read It** is a lightweight text-to-speech web app that lets you listen to any text, with auto language detection, smart chunking, and offline-ready PWA support.
+**Read TXT** is a lightweight text-to-speech web app that lets you listen to any text, with auto language detection, smart chunking, and offline-ready PWA support.
 
 For the best voice quality, use Microsoft Edge or Google Chrome.
 
