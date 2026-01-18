@@ -108,6 +108,27 @@ export const speechMethods = {
         return cleaned.trim();
     },
 
+    lineEndsWithPunctuation(line) {
+        return /[.!?。！？…,:，;；：、][)"'’”》】]*$/.test(line.trim());
+    },
+
+    countLineChars(line) {
+        return line.replace(/\s+/g, '').length;
+    },
+
+    shouldSplitOnSingleNewline(currentLine, nextLine) {
+        const current = currentLine.trim();
+        const next = (nextLine || '').trim();
+        if (!current || !next) return false;
+        if (this.lineEndsWithPunctuation(current)) return false;
+
+        const currentLen = this.countLineChars(current);
+        const nextLen = this.countLineChars(next);
+        const minNextLen = Math.max(20, currentLen + 8);
+
+        return currentLen <= 30 && nextLen >= minNextLen;
+    },
+
     splitIntoSentences(text) {
         // Prefer full-stop punctuation over arbitrary length cuts.
         const sentences = [];
@@ -125,8 +146,17 @@ export const speechMethods = {
                         sentences.push(buffer.trim());
                     }
                     buffer = '';
-                } else if (buffer && !buffer.endsWith(' ')) {
-                    buffer += ' ';
+                } else {
+                    const nextBreak = text.indexOf('\n', i + 1);
+                    const nextLine = text.slice(i + 1, nextBreak === -1 ? text.length : nextBreak);
+                    if (this.shouldSplitOnSingleNewline(buffer, nextLine)) {
+                        if (buffer.trim()) {
+                            sentences.push(buffer.trim());
+                        }
+                        buffer = '';
+                    } else if (buffer && !buffer.endsWith(' ')) {
+                        buffer += ' ';
+                    }
                 }
                 continue;
             }
@@ -194,8 +224,17 @@ export const speechMethods = {
                         parts.push(buffer.trim());
                     }
                     buffer = '';
-                } else if (buffer && !buffer.endsWith(' ')) {
-                    buffer += ' ';
+                } else {
+                    const nextBreak = text.indexOf('\n', i + 1);
+                    const nextLine = text.slice(i + 1, nextBreak === -1 ? text.length : nextBreak);
+                    if (this.shouldSplitOnSingleNewline(buffer, nextLine)) {
+                        if (buffer.trim()) {
+                            parts.push(buffer.trim());
+                        }
+                        buffer = '';
+                    } else if (buffer && !buffer.endsWith(' ')) {
+                        buffer += ' ';
+                    }
                 }
                 continue;
             }
